@@ -1,0 +1,18 @@
+body, input {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+}
+
+input {
+  outline: none;
+  border: none;
+}
+
+table {
+  border: 1px solid #bebebe;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #bebebe;
+}

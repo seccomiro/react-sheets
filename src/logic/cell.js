@@ -24,7 +24,7 @@ const letters = [
   'W',
   'X',
   'Y',
-  'Z'
+  'Z',
 ];
 
 export const processCell = (row, column, value) => {

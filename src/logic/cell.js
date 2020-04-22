@@ -48,15 +48,18 @@ export const cellToIndex = cell => ({
 
 const evaluateFormula = (formula, cells) => {
   const operators = /([+,*,/,=,-,(,)])/g;
-  return formula.split(operators).map(e => {
-    const val = e.trim();
-    if (val === '' || val === '=') return '';
-    if (isNumber(val)) return val;
-    if (val.match(operators)) return val;
-    const cell = cellToIndex(val);
-    const cellValue = cells[cell.row][cell.column].value;
-    return eval(cellValue);
-  });
+  const openFormula = formula
+    .split(operators)
+    .map(e => {
+      const val = e.trim();
+      if (val === '' || val === '=') return '';
+      if (isNumber(val) || val.match(operators)) return val;
+      const cell = cellToIndex(val);
+      const cellValue = cells[cell.row][cell.column].value;
+      return cellValue;
+    })
+    .join('');
+  return eval(openFormula);
 };
 
 const isNumber = value => !isNaN(value);

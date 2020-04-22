@@ -40,7 +40,7 @@ class Cell extends React.Component {
       this.props.selectedCell.column === this.props.column
     ) {
       return (
-        <div style={{ width: '30px', height: '20px', textAlign: 'right' }}>
+        <div className="cell selected">
           <input
             onKeyDown={this.onKeyDown}
             onChange={this.onChange}
@@ -60,10 +60,7 @@ class Cell extends React.Component {
       );
     } else {
       return (
-        <div
-          style={{ width: '30px', height: '20px', textAlign: 'right' }}
-          onClick={this.onSelectCell}
-        >
+        <div className="cell" onClick={this.onSelectCell}>
           {this.props.cell.value}
         </div>
       );

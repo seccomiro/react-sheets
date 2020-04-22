@@ -20,8 +20,8 @@ const createCells = (rowCount, columnCount) => {
 };
 
 const INITIAL_STATE = {
-  cells: createCells(10, 26),
-  size: { rows: 10, columns: 26 },
+  cells: createCells(9, 26),
+  size: { rows: 9, columns: 26 },
   test: 1,
   selectedCell: undefined,
 };

@@ -28,13 +28,13 @@ class Sheet extends React.Component {
               {row.map((value, j) => (
                 <Fragment key={j}>
                   {j === 0 ? (
-                    <td
+                    <th
                       className={
                         this.props.selectedCell?.row === i ? 'selected' : ''
                       }
                     >
                       {indexToRow(i)}
-                    </td>
+                    </th>
                   ) : (
                     <></>
                   )}

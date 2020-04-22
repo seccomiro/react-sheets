@@ -27,25 +27,24 @@ const letters = [
   'Z',
 ];
 
-export const processCell = (row, column, value, cells) => {
-  if (value.startsWith('=')) {
-    return evaluateFormula(value, cells);
-  }
-  return value;
-};
+export const processCell = (row, column, value, cells) =>
+  value.startsWith('=') ? evaluateFormula(value, cells) : value;
 
 export const indexToColumn = i => letters[i];
 
 export const columnToIndex = column => letters.indexOf(column.toUpperCase());
 
-export const indexToCell = (iRow, iColumn) =>
-  `${indexToColumn(iColumn)}${iRow + 1}`;
+export const rowToIndex = row => parseInt(row) - 1;
 
-export const cellToIndex = cell => {
-  const column = columnToIndex(cell[0]);
-  const row = parseInt(cell[1]) - 1;
-  return { row, column };
-};
+export const indexToRow = i => i + 1;
+
+export const indexToCell = (iRow, iColumn) =>
+  `${indexToColumn(iColumn)}${indexToRow(iRow)}`;
+
+export const cellToIndex = cell => ({
+  row: rowToIndex(cell[1]),
+  column: columnToIndex(cell[0]),
+});
 
 const evaluateFormula = (formula, cells) => {
   const operators = /([+,*,/,=,-,(,)])/g;

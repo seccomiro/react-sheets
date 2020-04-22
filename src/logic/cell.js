@@ -47,7 +47,7 @@ export const cellToIndex = cell => ({
 });
 
 const evaluateFormula = (formula, cells) => {
-  const operators = /([+,*,/,=,-,(,)])/g;
+  const operators = /([+,*,/,=,\-,(,)])/g;
   const openFormula = formula
     .split(operators)
     .map(e => {

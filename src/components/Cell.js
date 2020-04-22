@@ -1,30 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateCell, selectCell, nextColumn, nextRow } from '../actions';
-import { processCell } from '../logic/cell';
+import {
+  updateCell,
+  updateEditingCell,
+  selectCell,
+  nextColumn,
+  nextRow,
+} from '../actions';
 
 class Cell extends React.Component {
   onChange = e => {
-    this.props.updateCell(this.props.row, this.props.column, e.target.value);
+    this.props.updateEditingCell(e.target.value);
   };
 
   onSelectCell = e => {
     this.props.selectCell(this.props.row, this.props.column, true);
   };
 
-  onSubmit = e => {
-    e.preventDefault();
-    this.props.selectCell(this.props.row, this.props.column, false);
-  };
-
-  onKeyUp = e => {
+  onKeyDown = e => {
     if (e.which === 9) {
       e.preventDefault();
+      this.props.updateCell(this.props.row, this.props.column, e.target.value);
       this.props.nextColumn();
     } else if (e.which === 13) {
       e.preventDefault();
+      this.props.updateCell(this.props.row, this.props.column, e.target.value);
       this.props.nextRow();
     }
+  };
+
+  onBlur = e => {
+    this.props.updateCell(this.props.row, this.props.column, e.target.value);
   };
 
   render() {
@@ -35,22 +41,21 @@ class Cell extends React.Component {
     ) {
       return (
         <div style={{ width: '30px', height: '20px', textAlign: 'right' }}>
-          <form onSubmit={this.onSubmit}>
-            <input
-              onKeyDown={this.onKeyUp}
-              onChange={this.onChange}
-              onFocus={e => e.target.select()}
-              style={{
-                width: '100%',
-                height: '100%',
-                display: 'block',
-                textAlign: 'right',
-              }}
-              type="text"
-              value={this.props.value}
-              autoFocus
-            />
-          </form>
+          <input
+            onKeyDown={this.onKeyDown}
+            onChange={this.onChange}
+            onFocus={e => e.target.select()}
+            onBlur={this.onBlur}
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'block',
+              textAlign: 'right',
+            }}
+            type="text"
+            value={this.props.selectedCell.tempFormula}
+            autoFocus
+          />
         </div>
       );
     } else {
@@ -59,7 +64,7 @@ class Cell extends React.Component {
           style={{ width: '30px', height: '20px', textAlign: 'right' }}
           onClick={this.onSelectCell}
         >
-          {processCell(this.props.row, this.props.column, this.props.value)}
+          {this.props.cell.value}
         </div>
       );
     }
@@ -67,13 +72,13 @@ class Cell extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log(state.sheet);
-
-  return { selectedCell: state.sheet.selectedCell };
+  const cell = state.sheet.cells[ownProps.row][ownProps.column];
+  return { selectedCell: state.sheet.selectedCell, cell };
 };
 
 export default connect(mapStateToProps, {
   updateCell,
+  updateEditingCell,
   selectCell,
   nextColumn,
   nextRow,

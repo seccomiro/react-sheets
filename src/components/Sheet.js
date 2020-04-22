@@ -27,7 +27,7 @@ class Sheet extends React.Component {
                 <Fragment key={j}>
                   {j === 0 ? <td>{i}</td> : <></>}
                   <td>
-                    <Cell row={i} column={j} value={value} />
+                    <Cell row={i} column={j} />
                   </td>
                 </Fragment>
               ))}

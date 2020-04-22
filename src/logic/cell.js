@@ -27,27 +27,37 @@ const letters = [
   'Z',
 ];
 
-export const processCell = (row, column, value) => {
+export const processCell = (row, column, value, cells) => {
   if (value.startsWith('=')) {
-    return 'Formula';
+    return evaluateFormula(value, cells);
   }
   return value;
 };
 
-export const indexToColumn = i => {
-  return letters[i];
-};
+export const indexToColumn = i => letters[i];
 
-export const columnToIndex = column => {
-  return letters.findIndex(column);
-};
+export const columnToIndex = column => letters.indexOf(column.toUpperCase());
 
-export const indexToCell = (iRow, iColumn) => {
-  return `${indexToColumn(iColumn)}${iRow}`;
-};
+export const indexToCell = (iRow, iColumn) =>
+  `${indexToColumn(iColumn)}${iRow + 1}`;
 
 export const cellToIndex = cell => {
   const column = columnToIndex(cell[0]);
-  const row = cell.splice(1);
+  const row = parseInt(cell[1]) - 1;
   return { row, column };
 };
+
+const evaluateFormula = (formula, cells) => {
+  const operators = /([+,*,/,=,-,(,)])/g;
+  return formula.split(operators).map(e => {
+    const val = e.trim();
+    if (val === '' || val === '=') return '';
+    if (isNumber(val)) return val;
+    if (val.match(operators)) return val;
+    const cell = cellToIndex(val);
+    const cellValue = cells[cell.row][cell.column].value;
+    return eval(cellValue);
+  });
+};
+
+const isNumber = value => !isNaN(value);

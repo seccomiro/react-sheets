@@ -13,7 +13,7 @@ const createCells = (rowCount, columnCount) => {
   for (let i = 0; i < rowCount; i++) {
     rows[i] = [];
     for (let j = 0; j < columnCount; j++) {
-      rows[i][j] = { formula: '0', value: '0' };
+      rows[i][j] = { formula: '0', value: '0', dependents: [] };
     }
   }
   return rows;
@@ -31,23 +31,24 @@ export default (state = INITIAL_STATE, action) => {
     case UPDATE_EDITING_CELL:
       return update(state, {
         selectedCell: {
-          // $set: { tempFormula: action.payload },
-          tempFormula: { $set: action.payload },
+          tempFormula: { $set: action.payload.toUpperCase() },
         },
       });
     case UPDATE_CELL:
       const { row, column, value } = action.payload;
+      const cellData = processCell(row, column, value, state.cells);
       return update(state, {
-        cells: {
+        cells: cellData.changes,
+        /* {
+          ...cellData.changes,
           [row]: {
             [column]: {
-              $set: {
-                formula: state.selectedCell.tempFormula,
-                value: processCell(row, column, value, state.cells),
+              dependents: {
+                $set: cellData.dependents,
               },
             },
           },
-        },
+        },*/
       });
     case SELECT_CELL:
       return {

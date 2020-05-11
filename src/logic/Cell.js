@@ -6,23 +6,44 @@ class Cell {
     this.formula = formula;
     this.value = value;
     this.listeners = new Set();
-    this.pointedCells = new Set();
+    this.pointedCells = {};
   }
 
   setFormula(formula) {
     this.formula = formula;
     const cellNames = pointedCells(formula);
-    this.sheet.register(this, cellNames);
+    this.pointedCells = this.sheet.register(this, cellNames);
     this.evaluate();
   }
 
   registerListener(cell) {
+    console.log(`Registering listener (${cell})...`);
     this.listeners.add(cell);
   }
 
   evaluate() {
-    this.value = evaluateFormula(this.formula, {});
+    console.log('Being evaluated...');
+
+    // debugger;
+    if (this.formula.startsWith('=')) {
+      this.value = evaluateFormula(
+        this.formula.substring(1, this.formula.length),
+        this.pointedCellParams()
+      );
+    } else {
+      this.value = this.formula;
+    }
+    console.log(this.value);
+
     this.listeners.forEach(cell => cell.evaluate());
+  }
+
+  pointedCellParams() {
+    const map = {};
+    Object.keys(this.pointedCells).forEach(
+      cellName => (map[cellName] = this.pointedCells[cellName].value)
+    );
+    return map;
   }
 }
 

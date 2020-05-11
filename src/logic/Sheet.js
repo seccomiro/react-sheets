@@ -7,10 +7,20 @@ class Sheet {
     this.name = name;
   }
 
-  register(pointingCell, pointedCells) {
-    pointedCells
+  register(pointingCell, pointedCellNames) {
+    pointedCellNames
       .map(name => this.findCell(name))
       .forEach(cell => cell.registerListener(pointingCell));
+    return this.cellMap(pointedCellNames);
+  }
+
+  cellMap(cellNames) {
+    const map = {};
+    cellNames.forEach(name => {
+      const cell = this.findCell(name);
+      map[name] = cell;
+    });
+    return map;
   }
 
   findCell(name) {

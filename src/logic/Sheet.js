@@ -1,13 +1,21 @@
 import Cell from './Cell';
+import { cellToIndex } from './cell';
 
 class Sheet {
-  // static createSheet({ rows, columns, name }) {
-  //   return new Sheet({ rows, columns, name });
-  // }
-
   constructor({ rows, columns, name }) {
     this.cells = this.createCells(rows, columns);
     this.name = name;
+  }
+
+  register(pointingCell, pointedCells) {
+    pointedCells
+      .map(name => this.findCell(name))
+      .forEach(cell => cell.registerListener(pointingCell));
+  }
+
+  findCell(name) {
+    const index = cellToIndex(name);
+    return this.cells[index.row][index.column];
   }
 
   createCells(rowCount, columnCount) {
@@ -15,7 +23,7 @@ class Sheet {
     for (let i = 0; i < rowCount; i++) {
       rows[i] = [];
       for (let j = 0; j < columnCount; j++) {
-        rows[i][j] = new Cell({ formula: 0 });
+        rows[i][j] = new Cell({ sheet: this, formula: 0, value: 0 });
       }
     }
     return rows;

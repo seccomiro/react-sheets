@@ -25,7 +25,7 @@ class Sheet extends React.Component {
         <tbody>
           {this.props.cells.map((row, i) => (
             <tr key={i}>
-              {row.map((value, j) => (
+              {row.map((cell, j) => (
                 <Fragment key={j}>
                   {j === 0 ? (
                     <th
@@ -39,7 +39,7 @@ class Sheet extends React.Component {
                     <></>
                   )}
                   <td>
-                    <Cell row={i} column={j} />
+                    <Cell name={cell.getName()} />
                   </td>
                 </Fragment>
               ))}
@@ -56,7 +56,10 @@ class Sheet extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { cells: state.sheet.cells, selectedCell: state.sheet.selectedCell };
+  return {
+    cells: state.sheet.sheet.cells,
+    selectedCell: state.sheet.selectedCell,
+  };
 };
 
 export default connect(mapStateToProps, {})(Sheet);

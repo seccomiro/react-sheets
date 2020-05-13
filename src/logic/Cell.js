@@ -17,14 +17,14 @@ class Cell {
   }
 
   registerListener(cell) {
-    console.log(`Registering listener (${cell})...`);
     this.listeners.add(cell);
   }
 
-  evaluate() {
-    console.log('Being evaluated...');
+  getName() {
+    return this.sheet.getCellName(this);
+  }
 
-    // debugger;
+  evaluate() {
     if (this.formula.startsWith('=')) {
       this.value = evaluateFormula(
         this.formula.substring(1, this.formula.length),
@@ -33,7 +33,6 @@ class Cell {
     } else {
       this.value = this.formula;
     }
-    console.log(this.value);
 
     this.listeners.forEach(cell => cell.evaluate());
   }

@@ -6,16 +6,16 @@ import {
   UPDATE_EDITING_CELL,
 } from './types';
 
-export const updateCell = (row, column, value) => {
-  return { type: UPDATE_CELL, payload: { row, column, value } };
+export const updateCell = (cellName, formula) => {
+  return { type: UPDATE_CELL, payload: { cellName, formula } };
 };
 
 export const updateEditingCell = value => {
   return { type: UPDATE_EDITING_CELL, payload: value };
 };
 
-export const selectCell = (row, column, selected) => {
-  return { type: SELECT_CELL, payload: { row, column, selected } };
+export const selectCell = (name, selected) => {
+  return { type: SELECT_CELL, payload: { name, selected } };
 };
 
 export const nextRow = () => {

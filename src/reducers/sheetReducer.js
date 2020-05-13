@@ -6,23 +6,10 @@ import {
   UPDATE_EDITING_CELL,
 } from '../actions/types';
 import update from 'react-addons-update';
-import { processCell } from '../logic/cell';
-
-const createCells = (rowCount, columnCount) => {
-  let rows = [];
-  for (let i = 0; i < rowCount; i++) {
-    rows[i] = [];
-    for (let j = 0; j < columnCount; j++) {
-      rows[i][j] = { formula: '0', value: '0', dependents: [] };
-    }
-  }
-  return rows;
-};
+import Sheet from '../logic/Sheet';
 
 const INITIAL_STATE = {
-  cells: createCells(9, 26),
-  size: { rows: 9, columns: 26 },
-  test: 1,
+  sheet: new Sheet({ rows: 9, columns: 26, name: 'Sheet 1' }),
   selectedCell: undefined,
 };
 
@@ -35,57 +22,45 @@ export default (state = INITIAL_STATE, action) => {
         },
       });
     case UPDATE_CELL:
-      const { row, column, value } = action.payload;
-      const cellData = processCell(row, column, value, state.cells);
-      return update(state, {
-        cells: cellData.changes,
-        /* {
-          ...cellData.changes,
-          [row]: {
-            [column]: {
-              dependents: {
-                $set: cellData.dependents,
-              },
-            },
-          },
-        },*/
-      });
+      const { cellName, formula } = action.payload;
+      /**
+       * I know! We're mutating the state inside the store here.
+       * This will be fixed as formula change tracking process is well defined.
+       * By now, we need this to have every cell value updated.
+       */
+      state.sheet.updateCell(cellName, formula);
+
+      return state;
     case SELECT_CELL:
       return {
         ...state,
         selectedCell: action.payload.selected
           ? {
-              row: action.payload.row,
-              column: action.payload.column,
-              tempFormula:
-                state.cells[action.payload.row][action.payload.column].formula,
+              name: action.payload.name,
+              tempFormula: state.sheet.findCell(action.payload.name).formula,
             }
           : undefined,
       };
     case NEXT_COLUMN:
-      const nextColumn =
-        state.selectedCell.column === state.size.columns - 1
-          ? 0
-          : state.selectedCell.column + 1;
+      const nextColumnName = state.sheet.nextColumn(state.selectedCell.name);
+      const nextColumnFormula = state.sheet.findCell(nextColumnName).formula;
       return {
         ...state,
         selectedCell: {
           ...state.selectedCell,
-          column: nextColumn,
-          tempFormula: state.cells[state.selectedCell.row][nextColumn].formula,
+          name: nextColumnName,
+          tempFormula: nextColumnFormula,
         },
       };
     case NEXT_ROW:
-      const nextRow =
-        state.selectedCell.row === state.size.rows - 1
-          ? 0
-          : state.selectedCell.row + 1;
+      const nextRowName = state.sheet.nextRow(state.selectedCell.name);
+      const nextRowFormula = state.sheet.findCell(nextRowName).formula;
       return {
         ...state,
         selectedCell: {
           ...state.selectedCell,
-          row: nextRow,
-          tempFormula: state.cells[nextRow][state.selectedCell.column].formula,
+          name: nextRowName,
+          tempFormula: nextRowFormula,
         },
       };
     default:

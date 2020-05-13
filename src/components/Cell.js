@@ -14,30 +14,28 @@ class Cell extends React.Component {
   };
 
   onSelectCell = e => {
-    this.props.selectCell(this.props.row, this.props.column, true);
+    this.props.selectCell(this.props.name, true);
   };
 
   onKeyDown = e => {
-    if (e.which === 9) {
-      e.preventDefault();
-      this.props.updateCell(this.props.row, this.props.column, e.target.value);
-      this.props.nextColumn();
-    } else if (e.which === 13) {
-      e.preventDefault();
-      this.props.updateCell(this.props.row, this.props.column, e.target.value);
-      this.props.nextRow();
-    }
+    if (e.which === 9) this.nextElement('Column', e);
+    else if (e.which === 13) this.nextElement('Row', e);
+  };
+
+  nextElement = (type, e) => {
+    e.preventDefault();
+    this.props.updateCell(this.props.name, e.target.value);
+    this.props[`next${type}`]();
   };
 
   onBlur = e => {
-    this.props.updateCell(this.props.row, this.props.column, e.target.value);
+    this.props.updateCell(this.props.name, e.target.value);
   };
 
   render() {
     if (
       this.props.selectedCell &&
-      this.props.selectedCell.row === this.props.row &&
-      this.props.selectedCell.column === this.props.column
+      this.props.selectedCell.name === this.props.name
     ) {
       return (
         <div className="cell selected">
@@ -69,7 +67,7 @@ class Cell extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const cell = state.sheet.cells[ownProps.row][ownProps.column];
+  const cell = state.sheet.sheet.findCell(ownProps.name);
   return { selectedCell: state.sheet.selectedCell, cell };
 };
 

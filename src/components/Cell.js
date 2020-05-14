@@ -39,17 +39,11 @@ class Cell extends React.Component {
     ) {
       return (
         <div className="cell selected">
-          <input
+          <input  className="test"
             onKeyDown={this.onKeyDown}
             onChange={this.onChange}
             onFocus={e => e.target.select()}
             onBlur={this.onBlur}
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'block',
-              textAlign: 'right',
-            }}
             type="text"
             value={this.props.selectedCell.tempFormula}
             autoFocus
@@ -59,7 +53,7 @@ class Cell extends React.Component {
     } else {
       return (
         <div className="cell" onClick={this.onSelectCell}>
-          {this.props.cell.value}
+          <div className="test">{this.props.cell.value || '\u00A0'}</div>
         </div>
       );
     }

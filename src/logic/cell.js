@@ -42,3 +42,13 @@ export const cellToIndex = cell => ({
   row: rowToIndex(cell[1]),
   column: columnToIndex(cell[0]),
 });
+
+export const sameRow = (cellName1, cellName2) =>
+  cellName1 &&
+  cellName2 &&
+  cellToIndex(cellName1).row === cellToIndex(cellName2).row;
+
+export const sameColumn = (cellName1, cellName2) =>
+  cellName1 &&
+  cellName2 &&
+  cellToIndex(cellName1).column === cellToIndex(cellName2).column;

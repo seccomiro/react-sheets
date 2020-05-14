@@ -1,23 +1,25 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import Cell from './Cell';
-import { indexToRow, indexToColumn } from '../logic/cell';
+import { indexToRow, indexToColumn, sameColumn, sameRow } from '../logic/cell';
 
 class Sheet extends React.Component {
   renderCells() {
     return (
-      <table>
+      <table className="sheet-table">
         <thead style={{ textAlign: 'right' }}>
           <tr>
-            <th>.</th>
-            {this.props.cells[0].map((row, i) => (
+            <th className="column-header"></th>
+            {this.props.cells[0].map((cell, i) => (
               <th
                 key={`c${i}`}
-                className={
-                  this.props.selectedCell?.column === i ? 'selected' : ''
-                }
+                className={`column-header ${
+                  sameColumn(this.props.selectedCell?.name, cell.getName())
+                    ? 'selected'
+                    : ''
+                }`}
               >
-                {indexToColumn(i)}
+                <div>{indexToColumn(i)}</div>
               </th>
             ))}
           </tr>
@@ -29,16 +31,24 @@ class Sheet extends React.Component {
                 <Fragment key={j}>
                   {j === 0 ? (
                     <th
-                      className={
-                        this.props.selectedCell?.row === i ? 'selected' : ''
-                      }
+                      className={`row-header ${
+                        sameRow(this.props.selectedCell?.name, cell.getName())
+                          ? 'selected'
+                          : ''
+                      }`}
                     >
-                      {indexToRow(i)}
+                      <div>{indexToRow(i)}</div>
                     </th>
                   ) : (
                     <></>
                   )}
-                  <td>
+                  <td
+                    className={
+                      this.props.selectedCell?.name === cell.getName()
+                        ? 'selected'
+                        : ''
+                    }
+                  >
                     <Cell name={cell.getName()} />
                   </td>
                 </Fragment>

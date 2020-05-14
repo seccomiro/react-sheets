@@ -38,7 +38,7 @@ class Sheet {
     for (let i = 0; i < rowCount; i++) {
       rows[i] = [];
       for (let j = 0; j < columnCount; j++) {
-        const cell = new Cell({ sheet: this, formula: 0, value: 0 });
+        const cell = new Cell({ sheet: this, formula: '', value: '' });
         rows[i][j] = cell;
         this.cellNames.set(cell, indexToCell(i, j));
       }

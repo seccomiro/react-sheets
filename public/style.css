@@ -157,6 +157,7 @@ th.selected {
 .help {
   margin-left: 20px;
   margin-top: 20px;
+  line-height: 120%;
 }
 
 .help ul {

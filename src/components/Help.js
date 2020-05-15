@@ -25,7 +25,13 @@ const Help = () => (
     <ul>
       <li>
         Navigate through cells (enabling editing of them) using <em>TAB</em>,{' '}
-        <em>ENTER</em> and <em>mouse</em>.
+        <em>ENTER</em>, <em>arrows</em> and <em>mouse</em>.
+      </li>
+      <li>
+        Edit cells using <em>F2</em> and <em>ENTER</em>.
+      </li>
+      <li>
+        Cancel editing using <em>ESC</em>.
       </li>
       <li>
         Type numeric values, like <em>10</em> or <em>99.56</em> at any available

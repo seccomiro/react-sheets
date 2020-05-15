@@ -1,5 +1,11 @@
 * {
   box-sizing: border-box;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
 body {
@@ -117,6 +123,26 @@ td {
   /* transform: translateX(-50%); */
   top: 0;
   transform: translateY(0%);
+}
+
+.cell-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.cell-square {
+  cursor: crosshair;
+  z-index: 1;
+  background-color: #0077ff;
+  border: 1px solid #fff;
+  width: 6px;
+  height: 6px;
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
 }
 
 th.selected {

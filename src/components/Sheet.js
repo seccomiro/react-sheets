@@ -42,15 +42,14 @@ class Sheet extends React.Component {
                   ) : (
                     <></>
                   )}
-                  <td
-                    className={
-                      this.props.selectedCell?.name === cell.getName()
-                        ? 'selected'
-                        : ''
+                  <Cell
+                    name={cell.getName()}
+                    selected={this.props.selectedCell?.name === cell.getName()}
+                    editing={
+                      this.props.selectedCell?.name === cell.getName() &&
+                      this.props.selectedCell.editing
                     }
-                  >
-                    <Cell name={cell.getName()} />
-                  </td>
+                  />
                 </Fragment>
               ))}
             </tr>

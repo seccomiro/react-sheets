@@ -3,18 +3,19 @@ import { connect } from 'react-redux';
 import {
   updateCell,
   updateEditingCell,
-  selectCell,
+  editCell,
   nextColumn,
   nextRow,
 } from '../actions';
+import cellWrapper from './cellWrapper';
 
 class Cell extends React.Component {
   onChange = e => {
     this.props.updateEditingCell(e.target.value);
   };
 
-  onSelectCell = e => {
-    this.props.selectCell(this.props.name, true);
+  onEditCell = e => {
+    this.props.editCell(this.props.name, true);
   };
 
   onKeyDown = e => {
@@ -39,7 +40,7 @@ class Cell extends React.Component {
     ) {
       return (
         <div className="cell selected">
-          <input  className="test"
+          <input
             onKeyDown={this.onKeyDown}
             onChange={this.onChange}
             onFocus={e => e.target.select()}
@@ -52,7 +53,7 @@ class Cell extends React.Component {
       );
     } else {
       return (
-        <div className="cell" onClick={this.onSelectCell}>
+        <div className="cell" onClick={this.onEditCell}>
           <div className="test">{this.props.cell.value || '\u00A0'}</div>
         </div>
       );
@@ -65,10 +66,12 @@ const mapStateToProps = (state, ownProps) => {
   return { selectedCell: state.sheet.selectedCell, cell };
 };
 
-export default connect(mapStateToProps, {
-  updateCell,
-  updateEditingCell,
-  selectCell,
-  nextColumn,
-  nextRow,
-})(Cell);
+export default cellWrapper(
+  connect(mapStateToProps, {
+    updateCell,
+    updateEditingCell,
+    editCell,
+    nextColumn,
+    nextRow,
+  })(Cell)
+);

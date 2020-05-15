@@ -1,6 +1,6 @@
 import {
   UPDATE_CELL,
-  SELECT_CELL,
+  EDIT_CELL,
   NEXT_COLUMN,
   NEXT_ROW,
   UPDATE_EDITING_CELL,
@@ -31,13 +31,14 @@ export default (state = INITIAL_STATE, action) => {
       state.sheet.updateCell(cellName, formula);
 
       return state;
-    case SELECT_CELL:
+    case EDIT_CELL:
       return {
         ...state,
         selectedCell: action.payload.selected
           ? {
               name: action.payload.name,
               tempFormula: state.sheet.findCell(action.payload.name).formula,
+              editing: true,
             }
           : undefined,
       };

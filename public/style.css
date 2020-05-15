@@ -6,6 +6,11 @@ body {
   background-color: #f3f3f3;
 }
 
+a {
+  color: #0077ff;
+  text-decoration: none;
+}
+
 body,
 input {
   font-family: 'Open Sans', sans-serif;
@@ -120,4 +125,18 @@ th.selected {
 
 .sheet-table tbody td.selected {
   border: 2px solid #0077ff;
+}
+
+.help {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.help ul {
+  margin-left: 20px;
+}
+
+.help em {
+  font-weight: bold;
+  color: #0077ff;
 }

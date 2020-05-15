@@ -73,6 +73,19 @@ class Sheet {
     const nextColumn = cell.column === this.columns() - 1 ? 0 : cell.column + 1;
     return indexToCell(cell.row, nextColumn);
   }
+
+  previousRow(cellName) {
+    const cell = cellToIndex(cellName);
+    const previousRow = cell.row === 0 ? this.rows() - 1 : cell.row - 1;
+    return indexToCell(previousRow, cell.column);
+  }
+
+  previousColumn(cellName) {
+    const cell = cellToIndex(cellName);
+    const previousColumn =
+      cell.column === 0 ? this.columns() - 1 : cell.column - 1;
+    return indexToCell(cell.row, previousColumn);
+  }
 }
 
 export default Sheet;

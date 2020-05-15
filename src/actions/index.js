@@ -4,6 +4,7 @@ import {
   NEXT_ROW,
   NEXT_COLUMN,
   UPDATE_EDITING_CELL,
+  EDIT_CELL,
 } from './types';
 
 export const updateCell = (cellName, formula) => {
@@ -16,6 +17,10 @@ export const updateEditingCell = value => {
 
 export const selectCell = (name, selected) => {
   return { type: SELECT_CELL, payload: { name, selected } };
+};
+
+export const editCell = (name, selected) => {
+  return { type: EDIT_CELL, payload: { name, selected } };
 };
 
 export const nextRow = () => {

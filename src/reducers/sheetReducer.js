@@ -1,16 +1,19 @@
 import {
   UPDATE_CELL,
-  SELECT_CELL,
+  EDIT_CELL,
   NEXT_COLUMN,
   NEXT_ROW,
   UPDATE_EDITING_CELL,
+  SELECT_CELL,
+  PREVIOUS_COLUMN,
+  PREVIOUS_ROW,
 } from '../actions/types';
 import update from 'react-addons-update';
 import Sheet from '../logic/Sheet';
 
 const INITIAL_STATE = {
   sheet: new Sheet({ rows: 9, columns: 26, name: 'Sheet 1' }),
-  selectedCell: undefined,
+  selectedCell: { name: 'A1', editing: false, tempFormula: '' },
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -38,6 +41,20 @@ export default (state = INITIAL_STATE, action) => {
           ? {
               name: action.payload.name,
               tempFormula: state.sheet.findCell(action.payload.name).formula,
+              editing: false,
+            }
+          : undefined,
+      };
+    case EDIT_CELL:
+      return {
+        ...state,
+        selectedCell: action.payload.selected
+          ? {
+              name: action.payload.name,
+              tempFormula:
+                action.payload.value ||
+                state.sheet.findCell(action.payload.name).formula,
+              editing: true,
             }
           : undefined,
       };
@@ -50,6 +67,7 @@ export default (state = INITIAL_STATE, action) => {
           ...state.selectedCell,
           name: nextColumnName,
           tempFormula: nextColumnFormula,
+          editing: false,
         },
       };
     case NEXT_ROW:
@@ -61,6 +79,34 @@ export default (state = INITIAL_STATE, action) => {
           ...state.selectedCell,
           name: nextRowName,
           tempFormula: nextRowFormula,
+          editing: false,
+        },
+      };
+    case PREVIOUS_COLUMN:
+      const previousColumnName = state.sheet.previousColumn(
+        state.selectedCell.name
+      );
+      const previousColumnFormula = state.sheet.findCell(previousColumnName)
+        .formula;
+      return {
+        ...state,
+        selectedCell: {
+          ...state.selectedCell,
+          name: previousColumnName,
+          tempFormula: previousColumnFormula,
+          editing: false,
+        },
+      };
+    case PREVIOUS_ROW:
+      const previousRowName = state.sheet.previousRow(state.selectedCell.name);
+      const previousRowFormula = state.sheet.findCell(previousRowName).formula;
+      return {
+        ...state,
+        selectedCell: {
+          ...state.selectedCell,
+          name: previousRowName,
+          tempFormula: previousRowFormula,
+          editing: false,
         },
       };
     default:

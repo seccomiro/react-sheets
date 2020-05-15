@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 export default ChildComponent => {
   class CellWrapper extends Component {
     showSquare() {
-      if (this.props.selected && this.props.editing) {
+      if (this.props.selected && !this.props.editing) {
         return <div className="cell-square"></div>;
       }
     }
@@ -13,7 +13,11 @@ export default ChildComponent => {
       return (
         <td className={this.props.selected ? 'selected' : ''}>
           <div className="cell-wrapper">
-            <ChildComponent {...this.props} selected={this.props.selected} />
+            <ChildComponent
+              {...this.props}
+              selected={this.props.selected}
+              editing={this.props.editing}
+            />
             {this.showSquare()}
           </div>
         </td>

@@ -42,7 +42,7 @@ const Help = () => (
         <ul>
           <li>
             Tip: Try to write a formula that depends on two cells that have
-            formulas that depends on other cells that have regular numbers asnd,
+            formulas that depends on other cells that have regular numbers and,
             after that, change these regular numbers.
           </li>
         </ul>

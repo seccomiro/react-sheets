@@ -7,13 +7,19 @@ import {
   SELECT_CELL,
   PREVIOUS_COLUMN,
   PREVIOUS_ROW,
+  SELECT_FORMULA_BAR,
 } from '../actions/types';
 import update from 'react-addons-update';
 import Sheet from '../logic/Sheet';
 
 const INITIAL_STATE = {
   sheet: new Sheet({ rows: 9, columns: 26, name: 'Sheet 1' }),
-  selectedCell: { name: 'A1', editing: false, tempFormula: '' },
+  selectedCell: {
+    name: 'A1',
+    editing: false,
+    tempFormula: '',
+    formulaBarSelected: false,
+  },
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -58,6 +64,12 @@ export default (state = INITIAL_STATE, action) => {
             }
           : undefined,
       };
+    case SELECT_FORMULA_BAR:
+      return update(state, {
+        selectedCell: {
+          formulaBarSelected: { $set: action.payload.entering },
+        },
+      });
     case NEXT_COLUMN:
       const nextColumnName = state.sheet.nextColumn(state.selectedCell.name);
       const nextColumnFormula = state.sheet.findCell(nextColumnName).formula;

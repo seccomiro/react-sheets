@@ -34,7 +34,7 @@ const Help = () => (
         Cancel editing using <em>ESC</em>.
       </li>
       <li>
-        Type numeric values, like <em>10</em> or <em>99.56</em> at any available
+        Type <em>numeric</em> values, like <em>10</em> or <em>99.56</em> at any available
         cell.
       </li>
       <li>

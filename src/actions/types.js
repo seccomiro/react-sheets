@@ -6,3 +6,4 @@ export const NEXT_ROW = 'NEXT_ROW';
 export const NEXT_COLUMN = 'NEXT_COLUMN';
 export const PREVIOUS_ROW = 'PREVIOUS_ROW';
 export const PREVIOUS_COLUMN = 'PREVIOUS_COLUMN';
+export const SELECT_FORMULA_BAR = 'SELECT_FORMULA_BAR';

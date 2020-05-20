@@ -7,13 +7,19 @@ import {
   SELECT_CELL,
   PREVIOUS_COLUMN,
   PREVIOUS_ROW,
+  SELECT_FORMULA_BAR,
 } from '../actions/types';
 import update from 'react-addons-update';
 import Sheet from '../logic/Sheet';
 
 const INITIAL_STATE = {
   sheet: new Sheet({ rows: 9, columns: 26, name: 'Sheet 1' }),
-  selectedCell: { name: 'A1', editing: false, tempFormula: '' },
+  selectedCell: {
+    name: 'A1',
+    editing: false,
+    tempFormula: '',
+    formulaBarSelected: false,
+  },
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -42,6 +48,7 @@ export default (state = INITIAL_STATE, action) => {
               name: action.payload.name,
               tempFormula: state.sheet.findCell(action.payload.name).formula,
               editing: false,
+              formulaBarSelected: false,
             }
           : undefined,
       };
@@ -55,9 +62,16 @@ export default (state = INITIAL_STATE, action) => {
                 action.payload.value ||
                 state.sheet.findCell(action.payload.name).formula,
               editing: true,
+              formulaBarSelected: false,
             }
           : undefined,
       };
+    case SELECT_FORMULA_BAR:
+      return update(state, {
+        selectedCell: {
+          formulaBarSelected: { $set: action.payload.entering },
+        },
+      });
     case NEXT_COLUMN:
       const nextColumnName = state.sheet.nextColumn(state.selectedCell.name);
       const nextColumnFormula = state.sheet.findCell(nextColumnName).formula;
@@ -68,6 +82,7 @@ export default (state = INITIAL_STATE, action) => {
           name: nextColumnName,
           tempFormula: nextColumnFormula,
           editing: false,
+          formulaBarSelected: false,
         },
       };
     case NEXT_ROW:
@@ -80,6 +95,7 @@ export default (state = INITIAL_STATE, action) => {
           name: nextRowName,
           tempFormula: nextRowFormula,
           editing: false,
+          formulaBarSelected: false,
         },
       };
     case PREVIOUS_COLUMN:
@@ -95,6 +111,7 @@ export default (state = INITIAL_STATE, action) => {
           name: previousColumnName,
           tempFormula: previousColumnFormula,
           editing: false,
+          formulaBarSelected: false,
         },
       };
     case PREVIOUS_ROW:
@@ -107,6 +124,7 @@ export default (state = INITIAL_STATE, action) => {
           name: previousRowName,
           tempFormula: previousRowFormula,
           editing: false,
+          formulaBarSelected: false,
         },
       };
     default:

@@ -7,6 +7,7 @@ import {
   EDIT_CELL,
   PREVIOUS_ROW,
   PREVIOUS_COLUMN,
+  SELECT_FORMULA_BAR,
 } from './types';
 
 export const updateCell = (cellName, formula) => {
@@ -39,4 +40,8 @@ export const previousRow = () => {
 
 export const previousColumn = () => {
   return { type: PREVIOUS_COLUMN };
+};
+
+export const selectFormulaBar = (entering = true) => {
+  return { type: SELECT_FORMULA_BAR, payload: { entering } };
 };

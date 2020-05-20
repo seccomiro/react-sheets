@@ -48,6 +48,7 @@ export default (state = INITIAL_STATE, action) => {
               name: action.payload.name,
               tempFormula: state.sheet.findCell(action.payload.name).formula,
               editing: false,
+              formulaBarSelected: false,
             }
           : undefined,
       };
@@ -61,6 +62,7 @@ export default (state = INITIAL_STATE, action) => {
                 action.payload.value ||
                 state.sheet.findCell(action.payload.name).formula,
               editing: true,
+              formulaBarSelected: false,
             }
           : undefined,
       };
@@ -80,6 +82,7 @@ export default (state = INITIAL_STATE, action) => {
           name: nextColumnName,
           tempFormula: nextColumnFormula,
           editing: false,
+          formulaBarSelected: false,
         },
       };
     case NEXT_ROW:
@@ -92,6 +95,7 @@ export default (state = INITIAL_STATE, action) => {
           name: nextRowName,
           tempFormula: nextRowFormula,
           editing: false,
+          formulaBarSelected: false,
         },
       };
     case PREVIOUS_COLUMN:
@@ -107,6 +111,7 @@ export default (state = INITIAL_STATE, action) => {
           name: previousColumnName,
           tempFormula: previousColumnFormula,
           editing: false,
+          formulaBarSelected: false,
         },
       };
     case PREVIOUS_ROW:
@@ -119,6 +124,7 @@ export default (state = INITIAL_STATE, action) => {
           name: previousRowName,
           tempFormula: previousRowFormula,
           editing: false,
+          formulaBarSelected: false,
         },
       };
     default:

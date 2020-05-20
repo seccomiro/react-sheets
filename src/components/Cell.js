@@ -11,22 +11,21 @@ import {
   previousRow,
 } from '../actions';
 import cellWrapper from './cellWrapper';
+import FormulaInput from './FormulaInput';
 
 class Cell extends React.Component {
   componentDidMount() {
-    if (this.field) {
-      this.field.focus();
-    }
+    this.focusSelecTed();
   }
 
   componentDidUpdate() {
-    if (this.field) {
-      this.field.focus();
-    }
+    this.focusSelecTed();
   }
 
-  onChange = e => {
-    this.props.updateEditingCell(e.target.value);
+  focusSelecTed = () => {
+    if (this.field && !this.props.selectedCell.formulaBarSelected) {
+      this.field.focus();
+    }
   };
 
   onEditCell = e => {
@@ -38,13 +37,11 @@ class Cell extends React.Component {
   };
 
   onEditingKeyDown = e => {
-    if (e.which === 9) this.nextElement('Column', e, false, true);
-    else if (e.which === 13) this.nextElement('Row', e, false, true);
+    if (e.which === 13) this.nextElement('Row', e, false, true);
     else if (e.which === 37) this.nextElement('Column', e, true, true);
     else if (e.which === 38) this.nextElement('Row', e, true, true);
     else if (e.which === 39) this.nextElement('Column', e, false, true);
     else if (e.which === 40) this.nextElement('Row', e, false, true);
-    else if (e.which === 27) this.props.selectCell(this.props.name, true);
   };
 
   onSelectedKeyDown = e => {
@@ -72,20 +69,6 @@ class Cell extends React.Component {
   };
 
   printableKey(key) {
-    // return (
-    // // OLD
-    // (key > 47 && key < 58) || // number keys
-    // key === 32 ||
-    // (key > 64 && key < 91) || // letter keys
-    // (key > 95 && key < 112) || // numpad keys
-    // (key > 185 && key < 193) || // ;=,-./` (in order)
-    // (key > 218 && key < 223) // [\]' (in order)
-    // // NEW
-    // (key >= 48 && key <= 90) ||
-    // (key >= 96 && key <= 111) ||
-    // (key >= 186 && key <= 222)
-    // );
-
     // Only letters, numbers and equal for now
     if (key >= 48 && key <= 90) {
       return String.fromCharCode(key);
@@ -97,23 +80,12 @@ class Cell extends React.Component {
     return false;
   }
 
-  onBlur = e => {
-    this.props.updateCell(this.props.name, e.target.value);
-  };
-
   render() {
     if (this.props.selected) {
       if (this.props.editing) {
         return (
           <div className="cell selected">
-            <input
-              onKeyDown={this.onEditingKeyDown}
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-              type="text"
-              value={this.props.selectedCell.tempFormula}
-              autoFocus
-            />
+            <FormulaInput onKeyDown={this.onEditingKeyDown} />
           </div>
         );
       } else {

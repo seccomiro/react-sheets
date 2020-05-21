@@ -134,6 +134,10 @@ td {
   bottom: 0;
 }
 
+.cell-wrapper.editing {
+  box-shadow: 0px 0px 15px -2px rgba(0, 0, 0, 0.5);
+}
+
 .cell-square {
   cursor: crosshair;
   z-index: 1;

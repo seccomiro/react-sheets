@@ -10,9 +10,12 @@ export default ChildComponent => {
     }
 
     render() {
+      const className = `${this.props.selected ? 'selected' : ''} ${
+        this.props.editing ? 'editing' : ''
+      }`;
       return (
-        <td className={this.props.selected ? 'selected' : ''}>
-          <div className="cell-wrapper">
+        <td className={className}>
+          <div className={`cell-wrapper ${className}`}>
             <ChildComponent
               {...this.props}
               selected={this.props.selected}

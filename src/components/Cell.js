@@ -33,7 +33,10 @@ class Cell extends React.Component {
   };
 
   onSelectCell = e => {
-    this.props.selectCell(this.props.name, true);
+    this.props.selectCell(this.props.name, true, {
+      shift: !!e.shiftKey,
+      ctrl: !!e.ctrlKey,
+    });
   };
 
   onEditingKeyDown = e => {

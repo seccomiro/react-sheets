@@ -12,14 +12,18 @@ import {
 import update from 'react-addons-update';
 import Sheet from '../logic/Sheet';
 
+const initialSheet = new Sheet({ rows: 9, columns: 26, name: 'Sheet 1' });
+const firstCell = initialSheet.findCell('A1');
+
 const INITIAL_STATE = {
-  sheet: new Sheet({ rows: 9, columns: 26, name: 'Sheet 1' }),
+  sheet: initialSheet,
   selectedCell: {
-    name: 'A1',
+    name: firstCell.getName(),
     editing: false,
-    tempFormula: '',
+    tempFormula: firstCell.formula,
     formulaBarSelected: false,
   },
+  highlightedCells: firstCell,
 };
 
 export default (state = INITIAL_STATE, action) => {

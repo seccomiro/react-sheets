@@ -10,16 +10,18 @@ export default ChildComponent => {
     }
 
     render() {
-      const className = `${this.props.selected ? 'selected' : ''} ${
+      const selectedClass = `${this.props.selected ? 'selected' : ''} ${
         this.props.editing ? 'editing' : ''
-      }`;
+      } ${this.props.highlighted ? 'highlighted' : ''}`;
+
       return (
-        <td className={className}>
-          <div className={`cell-wrapper ${className}`}>
+        <td className={selectedClass}>
+          <div className={`cell-wrapper ${selectedClass}`}>
             <ChildComponent
               {...this.props}
               selected={this.props.selected}
               editing={this.props.editing}
+              highlighted={this.props.highlighted}
             />
             {this.showSquare()}
           </div>

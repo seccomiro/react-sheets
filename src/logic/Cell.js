@@ -24,6 +24,10 @@ class Cell {
     return this.sheet.getCellName(this);
   }
 
+  isHighlighted(highlightedAreas) {
+    return this.sheet.cellIsHighlighted(this.getName(), highlightedAreas);
+  }
+
   evaluate() {
     if (this.formula.startsWith('=')) {
       this.value = evaluateFormula(

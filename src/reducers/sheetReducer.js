@@ -23,7 +23,14 @@ const INITIAL_STATE = {
     tempFormula: firstCell.formula,
     formulaBarSelected: false,
   },
-  highlightedCells: firstCell,
+  highlightedAreas: [
+    {
+      start: firstCell.getName(),
+      end: firstCell.getName(),
+      cells: [firstCell],
+      cellNames: [firstCell.getName()],
+    },
+  ],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -45,6 +52,34 @@ export default (state = INITIAL_STATE, action) => {
 
       return state;
     case SELECT_CELL:
+      const { shift, ctrl } = action.payload.options;
+      let { highlightedAreas } = state;
+
+      if (shift && ctrl) {
+      } else if (shift) {
+        const start = state.selectedCell.name;
+        const end = action.payload.name;
+        const { cells, cellNames } = state.sheet.findCells(start, end);
+        const newArea = { start, end, cells, cellNames };
+        highlightedAreas = [newArea];
+      } else if (ctrl) {
+        const newArea = {
+          start: action.payload.name,
+          end: action.payload.name,
+          cells: [state.sheet.findCell(action.payload.name)],
+          cellNames: [action.payload.name],
+        };
+        highlightedAreas.push(newArea);
+      } else {
+        const newArea = {
+          start: action.payload.name,
+          end: action.payload.name,
+          cells: [state.sheet.findCell(action.payload.name)],
+          cellNames: [action.payload.name],
+        };
+        highlightedAreas = [newArea];
+      }
+
       return {
         ...state,
         selectedCell: action.payload.selected
@@ -55,6 +90,7 @@ export default (state = INITIAL_STATE, action) => {
               formulaBarSelected: false,
             }
           : undefined,
+        highlightedAreas,
       };
     case EDIT_CELL:
       return {

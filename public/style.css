@@ -192,3 +192,7 @@ th.selected {
   flex: 1;
   padding: 2px;
 }
+
+.sheet-table tbody td.highlighted {
+  background-color: #0e67eb1a;
+}

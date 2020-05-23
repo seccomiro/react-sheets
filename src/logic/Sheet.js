@@ -29,6 +29,27 @@ class Sheet {
     return this.cells[index.row][index.column];
   }
 
+  findCells(startName, endName) {
+    const start = cellToIndex(startName);
+    const end = cellToIndex(endName);
+    const rowStep = start.row <= end.row ? 1 : -1;
+    const colStep = start.column <= end.column ? 1 : -1;
+    const cells = [];
+    const cellNames = [];
+    for (let row = start.row; row <= end.row; row += rowStep) {
+      for (let col = start.column; col <= end.column; col += colStep) {
+        const cell = this.cells[row][col];
+        cells.push(cell);
+        cellNames.push(cell.getName());
+      }
+    }
+    return { cells, cellNames };
+  }
+
+  cellIsHighlighted(name, highlightedAreas) {
+    return !!highlightedAreas.find(a => a.cellNames.includes(name));
+  }
+
   updateCell(name, formula) {
     this.findCell(name).setFormula(formula);
   }

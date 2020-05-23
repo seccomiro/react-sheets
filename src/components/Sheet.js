@@ -54,6 +54,9 @@ class Sheet extends React.Component {
                         this.props.selectedCell?.name === cell.getName() &&
                         this.props.selectedCell.editing
                       }
+                      highlighted={cell.isHighlighted(
+                        this.props.highlightedAreas
+                      )}
                     />
                   </Fragment>
                 ))}
@@ -74,6 +77,7 @@ const mapStateToProps = state => {
   return {
     cells: state.sheet.sheet.cells,
     selectedCell: state.sheet.selectedCell,
+    highlightedAreas: state.sheet.highlightedAreas,
   };
 };
 

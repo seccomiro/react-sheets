@@ -18,8 +18,8 @@ export const updateEditingCell = value => {
   return { type: UPDATE_EDITING_CELL, payload: value };
 };
 
-export const selectCell = (name, selected) => {
-  return { type: SELECT_CELL, payload: { name, selected } };
+export const selectCell = (name, selected, options = {}) => {
+  return { type: SELECT_CELL, payload: { name, selected, options } };
 };
 
 export const editCell = (name, selected, value) => {

@@ -123,7 +123,11 @@ class Cell extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const cell = state.sheet.sheet.findCell(ownProps.name);
-  return { selectedCell: state.sheet.selectedCell, cell };
+  return {
+    selectedCell: state.sheet.selectedCell,
+    cell,
+    forceReload: state.sheet.forceReload,
+  };
 };
 
 export default cellWrapper(

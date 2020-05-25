@@ -32,6 +32,7 @@ const INITIAL_STATE = {
       cellNames: [firstCell.getName()],
     },
   ],
+  forceReload: Math.random(),
 };
 
 INITIAL_STATE.highlightedAreas.single = true;
@@ -183,7 +184,7 @@ export default (state = INITIAL_STATE, action) => {
         ...new Set(state.highlightedAreas.map(a => a.cellNames).flat()),
       ];
       state.sheet.updateCells(cellNames, '');
-      return state;
+      return { ...state, forceReload: Math.random() };
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import {
   PREVIOUS_COLUMN,
   PREVIOUS_ROW,
   SELECT_FORMULA_BAR,
+  DELETE_CELL_CONTENTS,
 } from '../actions/types';
 import update from 'react-addons-update';
 import Sheet from '../logic/Sheet';
@@ -31,6 +32,7 @@ const INITIAL_STATE = {
       cellNames: [firstCell.getName()],
     },
   ],
+  forceReload: Math.random(),
 };
 
 INITIAL_STATE.highlightedAreas.single = true;
@@ -174,6 +176,15 @@ export default (state = INITIAL_STATE, action) => {
           formulaBarSelected: false,
         },
       };
+    case DELETE_CELL_CONTENTS:
+      /**
+       * See UPDATE_CELL's explanation
+       */
+      const cellNames = [
+        ...new Set(state.highlightedAreas.map(a => a.cellNames).flat()),
+      ];
+      state.sheet.updateCells(cellNames, '');
+      return { ...state, forceReload: Math.random() };
     default:
       return state;
   }

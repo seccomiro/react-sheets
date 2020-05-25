@@ -9,6 +9,7 @@ import {
   nextRow,
   previousColumn,
   previousRow,
+  deleteCellContents,
 } from '../actions';
 import cellWrapper from './cellWrapper';
 import FormulaInput from './FormulaInput';
@@ -56,6 +57,7 @@ class Cell extends React.Component {
     else if (e.which === 38) this.nextElement('Row', e, true);
     else if (e.which === 39) this.nextElement('Column', e);
     else if (e.which === 40) this.nextElement('Row', e);
+    else if (e.which === 46) this.props.deleteCellContents();
     else if (this.printableKey(e.which)) {
       e.preventDefault();
       this.props.editCell(this.props.name, true, this.printableKey(e.which));
@@ -121,7 +123,11 @@ class Cell extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const cell = state.sheet.sheet.findCell(ownProps.name);
-  return { selectedCell: state.sheet.selectedCell, cell };
+  return {
+    selectedCell: state.sheet.selectedCell,
+    cell,
+    forceReload: state.sheet.forceReload,
+  };
 };
 
 export default cellWrapper(
@@ -134,5 +140,6 @@ export default cellWrapper(
     nextRow,
     previousColumn,
     previousRow,
+    deleteCellContents,
   })(Cell)
 );

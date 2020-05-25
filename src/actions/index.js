@@ -8,6 +8,7 @@ import {
   PREVIOUS_ROW,
   PREVIOUS_COLUMN,
   SELECT_FORMULA_BAR,
+  DELETE_CELL_CONTENTS,
 } from './types';
 
 export const updateCell = (cellName, formula) => {
@@ -44,4 +45,8 @@ export const previousColumn = () => {
 
 export const selectFormulaBar = (entering = true) => {
   return { type: SELECT_FORMULA_BAR, payload: { entering } };
+};
+
+export const deleteCellContents = () => {
+  return { type: DELETE_CELL_CONTENTS };
 };

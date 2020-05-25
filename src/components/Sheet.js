@@ -6,6 +6,7 @@ import FormulaBar from './FormulaBar';
 
 class Sheet extends React.Component {
   renderCells() {
+    console.log(this.props.highlightedAreas.single);
     return (
       <div className="sheet">
         <FormulaBar />
@@ -57,6 +58,10 @@ class Sheet extends React.Component {
                       highlighted={cell.isHighlighted(
                         this.props.highlightedAreas
                       )}
+                      singleHighlight={
+                        cell.isHighlighted(this.props.highlightedAreas) &&
+                        this.props.highlightedAreas.single
+                      }
                     />
                   </Fragment>
                 ))}

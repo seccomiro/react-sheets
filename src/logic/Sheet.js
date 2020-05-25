@@ -32,12 +32,20 @@ class Sheet {
   findCells(startName, endName) {
     const start = cellToIndex(startName);
     const end = cellToIndex(endName);
-    const rowStep = start.row <= end.row ? 1 : -1;
-    const colStep = start.column <= end.column ? 1 : -1;
+    const loop = {
+      row: {
+        start: start.row <= end.row ? start.row : end.row,
+        end: start.row <= end.row ? end.row : start.row,
+      },
+      column: {
+        start: start.column <= end.column ? start.column : end.column,
+        end: start.column <= end.column ? end.column : start.column,
+      },
+    };
     const cells = [];
     const cellNames = [];
-    for (let row = start.row; row <= end.row; row += rowStep) {
-      for (let col = start.column; col <= end.column; col += colStep) {
+    for (let row = loop.row.start; row <= loop.row.end; row++) {
+      for (let col = loop.column.start; col <= loop.column.end; col++) {
         const cell = this.cells[row][col];
         cells.push(cell);
         cellNames.push(cell.getName());

@@ -33,6 +33,12 @@ const INITIAL_STATE = {
   ],
 };
 
+INITIAL_STATE.highlightedAreas.single = true;
+
+const singleHighlight = highlightedAreas =>
+  highlightedAreas.length === 1 &&
+  highlightedAreas[0].start === highlightedAreas[0].end;
+
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_EDITING_CELL:
@@ -79,6 +85,7 @@ export default (state = INITIAL_STATE, action) => {
         };
         highlightedAreas = [newArea];
       }
+      highlightedAreas.single = singleHighlight(highlightedAreas);
 
       return {
         ...state,

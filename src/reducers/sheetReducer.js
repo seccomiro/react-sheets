@@ -179,7 +179,10 @@ export default (state = INITIAL_STATE, action) => {
       /**
        * See UPDATE_CELL's explanation
        */
-      state.sheet.updateCells(state.highlightedAreas.cellNames, '');
+      const cellNames = [
+        ...new Set(state.highlightedAreas.map(a => a.cellNames).flat()),
+      ];
+      state.sheet.updateCells(cellNames, '');
       return state;
     default:
       return state;

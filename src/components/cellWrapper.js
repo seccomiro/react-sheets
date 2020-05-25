@@ -12,7 +12,11 @@ export default ChildComponent => {
     render() {
       const selectedClass = `${this.props.selected ? 'selected' : ''} ${
         this.props.editing ? 'editing' : ''
-      } ${this.props.highlighted ? 'highlighted' : ''}`;
+      } ${
+        this.props.highlighted && !this.props.singleHighlight
+          ? 'highlighted'
+          : ''
+      }`;
 
       return (
         <td className={selectedClass}>

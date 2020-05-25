@@ -62,6 +62,10 @@ class Sheet {
     this.findCell(name).setFormula(formula);
   }
 
+  updateCells(cellNames, formula) {
+    cellNames.forEach(name => this.updateCell(name, formula));
+  }
+
   createCells(rowCount, columnCount) {
     let rows = [];
     for (let i = 0; i < rowCount; i++) {

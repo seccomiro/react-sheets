@@ -8,6 +8,7 @@ import {
   PREVIOUS_COLUMN,
   PREVIOUS_ROW,
   SELECT_FORMULA_BAR,
+  DELETE_CELL_CONTENTS,
 } from '../actions/types';
 import update from 'react-addons-update';
 import Sheet from '../logic/Sheet';
@@ -174,6 +175,12 @@ export default (state = INITIAL_STATE, action) => {
           formulaBarSelected: false,
         },
       };
+    case DELETE_CELL_CONTENTS:
+      /**
+       * See UPDATE_CELL's explanation
+       */
+      state.sheet.updateCells(state.highlightedAreas.cellNames, '');
+      return state;
     default:
       return state;
   }
